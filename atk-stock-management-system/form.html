@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      .input-field {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0 10px 0;
+        box-sizing: border-box;
+      }
+      .submit-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4166F5;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .submit-button:hover {
+        background-color: #B5C7EB;
+      }
+    </style>
+    <!-- Tambahkan SweetAlert2 dari CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  </head>
+
+  <body>
+    
+    <form id="dataForm2">
+
+      <label for="form">Form/ATK:</label><br>
+      <select id="form" name="form" class="input-field" required>
+        <option value="Kertas A4 (Rim)">Kertas A4 (Rim)</option>
+        <option value="Kertas F4 (Rim)">Kertas F4 (Rim)</option>
+        <option value="Kertas A3 (Rim)">Kertas A3 (Rim)</option>
+        <option value="Map Biola Kuning (Per-dus isi 50 pcs)">Map Biola Kuning (Per-dus isi 50 pcs)</option>
+        <option value="Map Biola Hijau Tua (Per-dus isi 50 pcs)">Map Biola Hijau Tua (Per-dus isi 50 pcs)</option>
+        <option value="Map Biola Merah (Per-dus isi 50 pcs)">Map Biola Merah (Per-dus isi 50 pcs)</option>
+        <option value="Map Biola Biru (Per-dus isi 50 pcs)">Map Biola Biru (Per-dus isi 50 pcs)</option>
+        <option value="Map Biola Hijau Muda (Per-dus isi 50 pcs)">Map Biola Hijau Muda (Per-dus isi 50 pcs)</option>
+        <option value="Map Biola Pink (Per-dus isi 50 pcs)">Map Biola Pink (Per-dus isi 50 pcs)</option>
+        <option value="Map Parkland (Per-pack isi 25 pcs)">Map Parkland (Per-pack isi 25 pcs)</option>
+        <option value="Amplop Parkland (Per-pack isi 100 pcs)">Amplop Parkland (Per-pack isi 100 pcs)</option> 
+        <option value="Kertas Kop Surat Parkland (Rim)">Kertas Kop Surat Parkland (Rim)</option>
+        <option value="Hanging Map (Per-dus isi 50 pcs)">Hanging Map (Per-dus isi 50 pcs)</option>
+        <option value="Trigonal Clip no. 1">Trigonal Clip no. 1</option>
+        <option value="Pulpen Meja Joyko (Hitam)">Pulpen Meja Joyko (Hitam)</option>
+        <option value="Pulpen Joyko Gel Q GP-265 (Hitam)">Pulpen Joyko Gel Q GP-265 (Hitam)</option>
+        <option value="Post It Sedang (656)">Post It Sedang (656)</option>
+        <option value="Post It Besar (654)">Post It Besar (654)</option>
+        <option value="Plastik Pocket F4 Bantex">Plastik Pocket F4 Bantex</option>
+        <option value="Ordner Bindex 717">Ordner Bindex 717</option>
+        <option value="Map Parkland Podomoro">Map Parkland Podomoro</option>
+        <option value="Isi Staples kecil No.10">Isi Staples kecil No.10</option>
+        <option value="Devider Plastik (10 Warna)">Devider Plastik (10 Warna)</option>
+        <option value="Binder Clip Kenko 155">Binder Clip Kenko 155</option>
+        <option value="Binder Clip Kenko 107">Binder Clip Kenko 107</option>
+      </select><br>
+
+      <label for="qty">Qty:</label><br>
+      <input type="text" id="qty" name="qty" class="input-field" required><br>
+
+      <label for="tanggal">Tanggal:</label><br>
+      <input type="date" id="tanggal" name="tanggal" class="input-field" required><br>
+
+      <label for="pic">PIC:</label><br>
+      <select id="pic" name="pic" class="input-field" required>
+        <option value="Ari">Ari</option>
+        <option value="Tedoy">Tedoy</option>
+        <option value="Rini">Rini</option>
+        <option value="Fahri">Fahri</option>
+        <option value="Rachel">Rachel</option>
+      </select><br>
+
+      <label for="keperluan">Keterangan:</label><br>
+      <input type="textarea" id="keperluan" name="keperluan" class="input-field" required><br>
+
+      <input type="button" value="Submit" class="submit-button" onclick="simpanData2()">
+    </form>
+
+    <script>
+      function simpanData2() {
+      // Ambil nilai input dari form
+      var form = document.getElementById('form').value.trim();
+       var qty = document.getElementById('qty').value.trim();
+       var tanggal = document.getElementById('tanggal').value.trim();
+       var pic = document.getElementById('pic').value;
+       var keperluan = document.getElementById('keperluan').value.trim();
+
+      // Validasi: Pastikan semua input diisi
+        if (!form || !qty || !tanggal || !pic || !keperluan) {
+        Swal.fire({
+         icon: 'warning',
+         title: 'Oops...',
+         text: 'Kolom diisi semua ya!',
+    });
+        return; // Hentikan proses jika ada input kosong
+    }
+     // Buat objek formData jika validasi lolos
+       var formData2 = {
+        form: form,
+        qty: qty,
+        tanggal: tanggal,
+        pic: pic,
+        keperluan: keperluan,
+    };
+
+     // Kirim data ke Google Apps Script
+        google.script.run
+        .withSuccessHandler(function(response) {
+        Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: response,
+    });
+        document.getElementById('dataForm2').reset(); // Bersihkan form
+    })
+        .withFailureHandler(function(error) {
+         Swal.fire({
+        icon: 'error',
+        title: 'Gagal!',
+        text: 'Terjadi kesalahan: ' + error.message,
+    });
+
+    })
+        .simpanData2(formData2);
+    }
+    </script>
+  </body>
+</html>
